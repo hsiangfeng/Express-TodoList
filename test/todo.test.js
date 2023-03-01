@@ -34,7 +34,7 @@ describe('Todos API', () => {
     });
   });
 
-  describe('GET /todos/:state', () => {
+  describe('GET /todo/:state', () => {
     it('should return the list of active todos', (done) => {
       request(app)
         .get('/todo/active')
