@@ -19,6 +19,8 @@ jobs:
       uses: pnpm/setup-pnpm@v1
       with:
         pnmp_version: '6'
+    - name: Install Dependencies
+      run: pnpm install --prefer-offline --no-frozen-lockfile
   unittest :
     name: Run UnitTest
     needs: [build]
@@ -30,10 +32,12 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '16.15.0'
-    - name: Get Cache Node Module
-      uses: pnpm install --prefer-offline --no-frozen-lockfile
+    - name: Setup pnpm
+      uses: pnpm/setup-pnpm@v1
       with:
-        useRollingCache: true
+        pnmp_version: '6'
+    - name: Get Cache Node Module
+      run: pnpm install --prefer-offline --no-frozen-lockfile
     - name: run unit test:unit
       run: pnpm run test:unit
     - name: upload Unit Test report
