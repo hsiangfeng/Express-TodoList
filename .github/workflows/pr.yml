@@ -15,10 +15,14 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '16.15.0'
-    - name: NPM ci and cacheing
-      uses: bahmutov/npm-install@v1
+    - uses: pnpm/action-setup@v2
+      name: Install pnpm
+      id: pnpm-install
       with:
-        useRollingCache: true
+        version: 7
+        run_install: false
+    - name: Install Dependencies
+      run: pnpm install --prefer-offline --no-frozen-lockfile
   unittest :
     name: Run UnitTest
     needs: [build]
@@ -30,12 +34,16 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '16.15.0'
-    - name: Get Cache Node Module
-      uses: bahmutov/npm-install@v1
+    - uses: pnpm/action-setup@v2
+      name: Install pnpm
+      id: pnpm-install
       with:
-        useRollingCache: true
+        version: 7
+        run_install: false
+    - name: Get Cache Node Module
+      run: pnpm install --prefer-offline --no-frozen-lockfile
     - name: run unit test:unit
-      run: npm run test:unit
+      run: pnpm run test:unit
     - name: upload Unit Test report
       uses: actions/upload-artifact@v2
       with:
